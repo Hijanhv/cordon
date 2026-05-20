@@ -12,11 +12,7 @@ pub fn find_policy_pda(agent: &Pubkey) -> (Pubkey, u8) {
 
 pub fn find_pending_pda(agent: &Pubkey, nonce: u64) -> (Pubkey, u8) {
     Pubkey::find_program_address(
-        &[
-            PendingTx::SEED_PREFIX,
-            agent.as_ref(),
-            &nonce.to_le_bytes(),
-        ],
+        &[PendingTx::SEED_PREFIX, agent.as_ref(), &nonce.to_le_bytes()],
         &ID,
     )
 }

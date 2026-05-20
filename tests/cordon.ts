@@ -248,4 +248,70 @@ describe("cordon", () => {
       .signers([authority])
       .rpc();
   });
+
+  it("rejects registration when hitl_threshold > max_lamports_per_tx", async () => {
+    const stranger = Keypair.generate();
+    const [strangerAgent] = findAgentPda(program.programId, stranger.publicKey);
+    const [strangerPolicy] = findPolicyPda(program.programId, strangerAgent);
+
+    try {
+      await program.methods
+        .registerAgent(SOL(0.1), SOL(1), SOL(10), [jupiterProgram])
+        .accountsStrict({
+          payer: payer.publicKey,
+          authority: authority.publicKey,
+          agentSigner: stranger.publicKey,
+          agent: strangerAgent,
+          policy: strangerPolicy,
+          systemProgram: SystemProgram.programId,
+        })
+        .rpc();
+      expect.fail("registerAgent should have failed on threshold > cap");
+    } catch (err: any) {
+      expect(err.error?.errorCode?.code).to.equal("InvalidThresholdOrdering");
+    }
+  });
+
+  it("rejects a submission that would breach the daily volume ceiling", async () => {
+    const lowVolumeSigner = Keypair.generate();
+    const [lowAgent] = findAgentPda(program.programId, lowVolumeSigner.publicKey);
+    const [lowPolicy] = findPolicyPda(program.programId, lowAgent);
+
+    await program.methods
+      .registerAgent(SOL(0.5), SOL(0.5), SOL(0.4), [jupiterProgram])
+      .accountsStrict({
+        payer: payer.publicKey,
+        authority: authority.publicKey,
+        agentSigner: lowVolumeSigner.publicKey,
+        agent: lowAgent,
+        policy: lowPolicy,
+        systemProgram: SystemProgram.programId,
+      })
+      .rpc();
+
+    await program.methods
+      .submitAuto(hashTx("vol-1"), SOL(0.3), jupiterProgram)
+      .accountsStrict({
+        agentSigner: lowVolumeSigner.publicKey,
+        agent: lowAgent,
+        policy: lowPolicy,
+      })
+      .signers([lowVolumeSigner])
+      .rpc();
+
+    try {
+      await program.methods
+        .submitAuto(hashTx("vol-2"), SOL(0.2), jupiterProgram)
+        .accountsStrict({
+          agentSigner: lowVolumeSigner.publicKey,
+          agent: lowAgent,
+          policy: lowPolicy,
+        })
+        .signers([lowVolumeSigner])
+        .rpc();
+      expect.fail("submitAuto should have failed on volume ceiling");
+    } catch (err: any) {
+      expect(err.error?.errorCode?.code).to.equal("OverDailyVolume");
+    }
+  });
 });

@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Program, Idl } from "@coral-xyz/anchor";
 import { PublicKey } from "@solana/web3.js";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 
-import type { PendingTxAccount } from "@/lib/cordon-program";
+import type { CordonProgram, PendingTxAccount } from "@/lib/cordon-program";
 
 function formatSol(lamports: bigint): string {
   const sol = Number(lamports) / 1_000_000_000;
@@ -25,7 +24,7 @@ function hashPreview(hash: number[]): string {
 interface Props {
   pending: PendingTxAccount;
   agent: PublicKey;
-  program: Program<Idl>;
+  program: CordonProgram;
   onChanged: () => void;
 }
 

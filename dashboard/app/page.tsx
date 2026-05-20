@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Idl, Program } from "@coral-xyz/anchor";
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { PublicKey } from "@solana/web3.js";
 
 import { PendingTxRow } from "@/components/pending-tx-row";
 import {
+  CordonProgram,
   fetchPendingForAgent,
   getProvider,
   loadProgram,
@@ -20,7 +20,7 @@ export default function Page() {
 
   const [agentInput, setAgentInput] = useState("");
   const [agent, setAgent] = useState<PublicKey | null>(null);
-  const [program, setProgram] = useState<Program<Idl> | null>(null);
+  const [program, setProgram] = useState<CordonProgram | null>(null);
   const [pending, setPending] = useState<PendingTxAccount[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -30,8 +30,12 @@ export default function Page() {
       setProgram(null);
       return;
     }
-    const provider = getProvider(connection, wallet);
-    loadProgram(provider).then(setProgram).catch((e) => setErr(e.message));
+    try {
+      const provider = getProvider(connection, wallet);
+      setProgram(loadProgram(provider));
+    } catch (e: any) {
+      setErr(e?.message ?? "failed to load Cordon program");
+    }
   }, [wallet, connection]);
 
   const refresh = useCallback(async () => {

@@ -9,6 +9,7 @@ dashboard/.next/
 dashboard/out/
 dashboard/.env.local
 dashboard/.env*.local
+dashboard/*.tsbuildinfo
 
 # Program keypair stays out of git — anyone with it can redeploy at that program ID
 target/deploy/cordon-keypair.json

@@ -1,11 +1,15 @@
-import { AnchorProvider, Program, Idl, BN } from "@coral-xyz/anchor";
+import { AnchorProvider, Program, BN } from "@coral-xyz/anchor";
 import { Connection, PublicKey } from "@solana/web3.js";
 import type { AnchorWallet } from "@solana/wallet-adapter-react";
+
+import type { Cordon } from "@/idl/cordon";
+import cordonIdl from "@/idl/cordon.json";
 
 export const CORDON_PROGRAM_ID = new PublicKey(
   "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik"
 );
 
+export type CordonProgram = Program<Cordon>;
 export type PendingStatus = "pending" | "approved" | "rejected";
 
 export interface PendingTxAccount {
@@ -38,16 +42,8 @@ export function getProvider(
   return new AnchorProvider(connection, wallet, AnchorProvider.defaultOptions());
 }
 
-export async function loadProgram(
-  provider: AnchorProvider
-): Promise<Program<Idl>> {
-  const idl = await Program.fetchIdl(CORDON_PROGRAM_ID, provider);
-  if (!idl) {
-    throw new Error(
-      `Cordon IDL not found on-chain at ${CORDON_PROGRAM_ID.toBase58()}`
-    );
-  }
-  return new Program(idl, provider);
+export function loadProgram(provider: AnchorProvider): CordonProgram {
+  return new Program(cordonIdl as Cordon, provider);
 }
 
 function decodeStatus(raw: { pending?: {}; approved?: {}; rejected?: {} }): PendingStatus {
@@ -57,7 +53,7 @@ function decodeStatus(raw: { pending?: {}; approved?: {}; rejected?: {} }): Pend
 }
 
 export async function fetchPendingForAgent(
-  program: Program<Idl>,
+  program: CordonProgram,
   agent: PublicKey
 ): Promise<PendingTxAccount[]> {
   const all = await program.account.pendingTx.all([
@@ -69,26 +65,25 @@ export async function fetchPendingForAgent(
   return all
     .map(({ publicKey, account }) => ({
       publicKey,
-      agent: account.agent as PublicKey,
-      txHash: account.txHash as number[],
-      lamports: account.lamports as BN,
-      targetProgram: account.targetProgram as PublicKey,
-      nonce: account.nonce as BN,
-      proposedAt: account.proposedAt as BN,
-      status: decodeStatus(account.status as any),
+      agent: account.agent,
+      txHash: account.txHash,
+      lamports: account.lamports,
+      targetProgram: account.targetProgram,
+      nonce: account.nonce,
+      proposedAt: account.proposedAt,
+      status: decodeStatus(account.status),
     }))
     .filter((p) => p.status === "pending")
     .sort((a, b) => a.proposedAt.cmp(b.proposedAt));
 }
 
 export async function fetchPolicy(
-  program: Program<Idl>,
+  program: CordonProgram,
   agent: PublicKey
 ): Promise<PolicyAccount> {
   const [policyPda] = PublicKey.findProgramAddressSync(
     [Buffer.from("policy"), agent.toBuffer()],
     CORDON_PROGRAM_ID
   );
-  const policy = await program.account.policy.fetch(policyPda);
-  return policy as unknown as PolicyAccount;
+  return (await program.account.policy.fetch(policyPda)) as unknown as PolicyAccount;
 }
