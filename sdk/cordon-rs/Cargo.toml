@@ -1,0 +1,16 @@
+[package]
+name = "cordon-rs"
+version = "0.1.0"
+description = "Off-chain client and policy-preview helpers for the Cordon program"
+edition = "2021"
+license = "MIT"
+
+[lib]
+name = "cordon_rs"
+path = "src/lib.rs"
+
+[dependencies]
+anchor-lang = "0.32.1"
+cordon = { path = "../../programs/cordon", features = ["no-entrypoint"] }
+sha2 = "0.10"
+thiserror = "1"

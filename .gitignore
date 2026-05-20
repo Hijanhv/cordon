@@ -1,0 +1,17 @@
+target/
+**/*.rs.bk
+node_modules/
+test-ledger/
+.anchor/
+.DS_Store
+
+dashboard/.next/
+dashboard/out/
+dashboard/.env.local
+dashboard/.env*.local
+
+# Program keypair stays out of git — anyone with it can redeploy at that program ID
+target/deploy/cordon-keypair.json
+
+# Locally cloned reference repos (other teams' code)
+reference-repos/
