@@ -2,6 +2,8 @@
 
 **Janhavi Chavada · Turbin3 Builders Cohort · May 2026**
 
+Repo: [github.com/Hijanhv/cordon](https://github.com/Hijanhv/cordon)
+
 ## Project overview
 
 Cordon is a transaction firewall for Solana AI agents. Every transaction an autonomous agent wants to broadcast first goes through Helius simulation, then a policy check against an on-chain Anchor program, and (when the policy flags it) sits in a queue for a human approver before it ever hits the network. Policies and approval rules live on-chain, not in middleware config, so a single operator can't quietly raise a spend cap or remove a kill switch. The goal is to let teams ship autonomous agents on Solana without one bad prompt, jailbreak, or model regression draining a hot wallet.
@@ -191,4 +193,4 @@ Sources I went through manually (all archived under `/research/`):
 - Anchor framework: https://www.anchor-lang.com/
 - Solana Foundation templates (`nextjs-anchor`, `react-vite-anchor`, `pinocchio-counter`): https://solana.com/developers/templates
 
-Raw scrapes of the primary sources are in `/research/`.
+Raw scrapes of the primary sources are in `/research/` in the project repo: https://github.com/Hijanhv/cordon
