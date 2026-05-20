@@ -15,3 +15,6 @@ target/deploy/cordon-keypair.json
 
 # Locally cloned reference repos (other teams' code)
 reference-repos/
+
+# Generated PDF build intermediate
+docs/cordon-proposal.html
