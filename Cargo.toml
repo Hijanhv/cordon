@@ -1,7 +1,7 @@
 [workspace]
 members = [
     "programs/*",
-    "sdk/cordon-rs",
+    "sdk/cardon-rs",
 ]
 resolver = "2"
 

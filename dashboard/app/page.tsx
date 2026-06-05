@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const GITHUB = "https://github.com/Hijanhv/cordon";
+const GITHUB = "https://github.com/Hijanhv/cardon";
 
 const flow = [
   { step: "Simulate", body: "The agent's transaction is run through Helius simulation before anything is signed." },
@@ -30,7 +30,7 @@ export default function Home() {
           An on-chain transaction firewall for Solana AI agents.
         </h1>
         <p className="mt-6 text-lg text-neutral-400 leading-relaxed">
-          Cordon sits between an autonomous agent and the network. Every transaction the
+          Cardon sits between an autonomous agent and the network. Every transaction the
           agent wants to broadcast is simulated, checked against a policy stored in an Anchor
           program, and either signed, queued for a human approver, or rejected. Because the
           policy and approval rules live on-chain, no single operator can quietly raise a
@@ -59,7 +59,7 @@ export default function Home() {
           jailbreak, or a model regression can drain a hot wallet, and there is no firewall
           between an agent&apos;s intent and the network. The closest existing product runs
           its policy as centralized middleware that anyone with code access can change.
-          Cordon puts the policy in an Anchor program whose authority can be a multisig or a
+          Cardon puts the policy in an Anchor program whose authority can be a multisig or a
           DAO, so rotating the rules is an on-chain transaction, not a config push.
         </p>
       </section>
@@ -101,7 +101,7 @@ export default function Home() {
           Drop the firewall into an agent built on the Solana Agent Kit by wrapping its wallet.
         </p>
         <pre className="bg-neutral-900 border border-neutral-800 rounded p-4 text-sm overflow-x-auto">
-          <code className="font-mono text-neutral-300">{`const wallet = new CordonWallet({ inner, client, agent, agentSigner });
+          <code className="font-mono text-neutral-300">{`const wallet = new CardonWallet({ inner, client, agent, agentSigner });
 const agentKit = new SolanaAgentKit(wallet, RPC_URL, {});
 // a high-value tx now queues for human review instead of broadcasting`}</code>
         </pre>
@@ -109,7 +109,7 @@ const agentKit = new SolanaAgentKit(wallet, RPC_URL, {});
 
       <footer className="pt-8 border-t border-neutral-900 text-sm text-neutral-500 flex justify-between">
         <span>Turbin3 Builders capstone</span>
-        <a href={GITHUB} className="hover:text-neutral-300">github.com/Hijanhv/cordon</a>
+        <a href={GITHUB} className="hover:text-neutral-300">github.com/Hijanhv/cardon</a>
       </footer>
     </main>
   );

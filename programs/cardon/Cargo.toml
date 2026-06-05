@@ -1,0 +1,21 @@
+[package]
+name = "cardon"
+version = "0.1.0"
+description = "Cardon: on-chain policy and HITL firewall for Solana AI agents"
+edition = "2021"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "cardon"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+anchor-lang = "0.32.1"

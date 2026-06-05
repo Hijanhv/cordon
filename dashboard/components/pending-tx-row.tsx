@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PublicKey } from "@solana/web3.js";
 import { useAnchorWallet } from "@solana/wallet-adapter-react";
 
-import type { CordonProgram, PendingTxAccount } from "@/lib/cordon-program";
+import type { CardonProgram, PendingTxAccount } from "@/lib/cardon-program";
 
 function formatSol(lamports: bigint): string {
   const sol = Number(lamports) / 1_000_000_000;
@@ -24,7 +24,7 @@ function hashPreview(hash: number[]): string {
 interface Props {
   pending: PendingTxAccount;
   agent: PublicKey;
-  program: CordonProgram;
+  program: CardonProgram;
   onChanged: () => void;
 }
 

@@ -18,10 +18,10 @@ services/**/dist/
 **/*.tsbuildinfo
 
 # Program keypair stays out of git — anyone with it can redeploy at that program ID
-target/deploy/cordon-keypair.json
+target/deploy/cardon-keypair.json
 
 # Locally cloned reference repos (other teams' code)
 reference-repos/
 
 # Generated PDF build intermediate
-docs/cordon-proposal.html
+docs/cardon-proposal.html

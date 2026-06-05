@@ -13,15 +13,15 @@ pandoc CAPSTONE_PROPOSAL.md \
   --standalone \
   --embed-resources \
   --css=proposal.css \
-  --metadata title="Cordon Capstone Proposal" \
-  -o cordon-proposal.html
+  --metadata title="Cardon Capstone Proposal" \
+  -o cardon-proposal.html
 
 "$CHROME_BIN" \
   --headless \
   --disable-gpu \
   --no-pdf-header-footer \
   --no-sandbox \
-  --print-to-pdf="$DOCS/cordon-proposal.pdf" \
-  "file://$DOCS/cordon-proposal.html"
+  --print-to-pdf="$DOCS/cardon-proposal.pdf" \
+  "file://$DOCS/cardon-proposal.html"
 
-echo "wrote $DOCS/cordon-proposal.pdf"
+echo "wrote $DOCS/cardon-proposal.pdf"

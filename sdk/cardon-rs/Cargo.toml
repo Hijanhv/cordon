@@ -1,0 +1,32 @@
+[package]
+name = "cardon-rs"
+version = "0.1.0"
+description = "Off-chain client and policy-preview helpers for the Cardon program"
+edition = "2021"
+license = "MIT"
+
+[lib]
+name = "cardon_rs"
+path = "src/lib.rs"
+
+[features]
+default = []
+# The async on-chain client. Off by default so the lightweight policy-preview,
+# PDA, and hash helpers stay dependency-free for callers that only need them.
+client = ["dep:anchor-client", "dep:solana-rpc-client-api"]
+
+[dependencies]
+anchor-lang = "0.32.1"
+cardon = { path = "../../programs/cardon", features = ["no-entrypoint"] }
+sha2 = "0.10"
+thiserror = "1"
+
+anchor-client = { version = "0.32.1", features = ["async"], optional = true }
+solana-rpc-client-api = { version = "2", optional = true }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+
+[[example]]
+name = "guard_swap"
+required-features = ["client"]

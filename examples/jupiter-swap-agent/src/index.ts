@@ -1,6 +1,6 @@
 /**
- * Toy "Jupiter swap agent" that routes every transaction through the Cordon
- * firewall via {@link CordonWallet}. Demonstrates the one-wrap integration: the
+ * Toy "Jupiter swap agent" that routes every transaction through the Cardon
+ * firewall via {@link CardonWallet}. Demonstrates the one-wrap integration: the
  * agent code is unchanged, but a high-value swap now gets queued for human
  * review instead of broadcasting.
  *
@@ -8,8 +8,8 @@
  * registered:
  *
  * ```bash
- * CORDON_RPC=https://api.devnet.solana.com \
- * CORDON_PAYER=~/.config/solana/id.json \
+ * CARDON_RPC=https://api.devnet.solana.com \
+ * CARDON_PAYER=~/.config/solana/id.json \
  * AGENT_SIGNER=./agent-signer.json \
  * AGENT_PDA=<agent pda> \
  * TARGET_PROGRAM=<allowed program> \
@@ -29,13 +29,13 @@ import {
 } from "@solana/web3.js";
 import { Wallet } from "@coral-xyz/anchor";
 import { BN } from "bn.js";
-import { CordonClient } from "@cordon/sdk";
+import { CardonClient } from "@cardon/sdk";
 import {
-  CordonWallet,
-  CordonReviewRequiredError,
-  CordonPolicyDeniedError,
+  CardonWallet,
+  CardonReviewRequiredError,
+  CardonPolicyDeniedError,
   type BaseWallet,
-} from "@cordon/agent-kit";
+} from "@cardon/agent-kit";
 
 function loadKeypair(path: string): Keypair {
   const secret = Uint8Array.from(JSON.parse(readFileSync(path, "utf8")));
@@ -83,11 +83,11 @@ class KeypairWallet implements BaseWallet {
 }
 
 async function main() {
-  const rpc = process.env.CORDON_RPC ?? "http://127.0.0.1:8899";
+  const rpc = process.env.CARDON_RPC ?? "http://127.0.0.1:8899";
   const connection = new Connection(rpc, "confirmed");
 
   const feePayer = loadKeypair(
-    process.env.CORDON_PAYER ?? `${process.env.HOME}/.config/solana/id.json`
+    process.env.CARDON_PAYER ?? `${process.env.HOME}/.config/solana/id.json`
   );
   const agentSigner = loadKeypair(process.env.AGENT_SIGNER ?? "./agent-signer.json");
   const agent = new PublicKey(process.env.AGENT_PDA ?? PublicKey.default.toBase58());
@@ -95,15 +95,15 @@ async function main() {
     process.env.TARGET_PROGRAM ?? PublicKey.default.toBase58()
   );
 
-  // Cordon's client uses its own funded fee payer to record decisions on-chain.
-  const client = CordonClient.fromConnection(
+  // Cardon's client uses its own funded fee payer to record decisions on-chain.
+  const client = CardonClient.fromConnection(
     connection,
     new Wallet(feePayer)
   );
 
   // The agent's real wallet, now wrapped by the firewall.
   const inner = new KeypairWallet(agentSigner, connection);
-  const wallet = new CordonWallet({
+  const wallet = new CardonWallet({
     inner,
     client,
     agent,
@@ -131,11 +131,11 @@ async function main() {
     const signed = await wallet.signTransaction(swap);
     console.log("auto-approved and signed:", signed.signature?.toString());
   } catch (err) {
-    if (err instanceof CordonReviewRequiredError) {
+    if (err instanceof CardonReviewRequiredError) {
       console.log(
         `queued for human review — approve it in the dashboard. pending=${err.pending.toBase58()}`
       );
-    } else if (err instanceof CordonPolicyDeniedError) {
+    } else if (err instanceof CardonPolicyDeniedError) {
       console.log(`firewall rejected the swap: ${err.denial}`);
     } else {
       throw err;

@@ -6,10 +6,10 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-cordon = "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik"
+cardon = "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik"
 
 [programs.devnet]
-cordon = "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik"
+cardon = "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik"
 
 [registry]
 url = "https://api.apr.dev"

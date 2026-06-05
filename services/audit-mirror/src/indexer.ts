@@ -1,6 +1,6 @@
 import { BorshCoder, EventParser, type Idl } from "@coral-xyz/anchor";
 import { Connection, PublicKey } from "@solana/web3.js";
-import { CORDON_IDL, CORDON_PROGRAM_ID } from "@cordon/sdk";
+import { CARDON_IDL, CARDON_PROGRAM_ID } from "@cardon/sdk";
 
 import type { AuditStore } from "./store";
 
@@ -28,17 +28,17 @@ function normalize(value: unknown): unknown {
   return value;
 }
 
-export class CordonIndexer {
+export class CardonIndexer {
   private readonly parser: EventParser;
 
   constructor(
     private readonly connection: Connection,
     private readonly store: AuditStore,
-    private readonly programId: PublicKey = CORDON_PROGRAM_ID
+    private readonly programId: PublicKey = CARDON_PROGRAM_ID
   ) {
     this.parser = new EventParser(
       programId,
-      new BorshCoder(CORDON_IDL as Idl)
+      new BorshCoder(CARDON_IDL as Idl)
     );
   }
 

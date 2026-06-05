@@ -731,6 +731,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e748733b7cbc798e1434b6ac524f0c1ff2ab456fe201501e6497c8417a4fc33"
 
 [[package]]
+name = "cardon"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+]
+
+[[package]]
+name = "cardon-rs"
+version = "0.1.0"
+dependencies = [
+ "anchor-client",
+ "anchor-lang",
+ "cardon",
+ "sha2 0.10.9",
+ "solana-rpc-client-api",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
 name = "cargo_toml"
 version = "0.19.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -856,26 +876,6 @@ name = "constant_time_eq"
 version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3d52eff69cd5e647efe296129160853a42795992097e8af39800e1060caeea9b"
-
-[[package]]
-name = "cordon"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
-]
-
-[[package]]
-name = "cordon-rs"
-version = "0.1.0"
-dependencies = [
- "anchor-client",
- "anchor-lang",
- "cordon",
- "sha2 0.10.9",
- "solana-rpc-client-api",
- "thiserror 1.0.69",
- "tokio",
-]
 
 [[package]]
 name = "cpufeatures"

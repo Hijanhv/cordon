@@ -8,12 +8,12 @@ import { PublicKey } from "@solana/web3.js";
 
 import { PendingTxRow } from "@/components/pending-tx-row";
 import {
-  CordonProgram,
+  CardonProgram,
   fetchPendingForAgent,
   getProvider,
   loadProgram,
   PendingTxAccount,
-} from "@/lib/cordon-program";
+} from "@/lib/cardon-program";
 
 export default function Page() {
   const { connection } = useConnection();
@@ -21,7 +21,7 @@ export default function Page() {
 
   const [agentInput, setAgentInput] = useState("");
   const [agent, setAgent] = useState<PublicKey | null>(null);
-  const [program, setProgram] = useState<CordonProgram | null>(null);
+  const [program, setProgram] = useState<CardonProgram | null>(null);
   const [pending, setPending] = useState<PendingTxAccount[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ export default function Page() {
       const provider = getProvider(connection, wallet);
       setProgram(loadProgram(provider));
     } catch (e: any) {
-      setErr(e?.message ?? "failed to load Cordon program");
+      setErr(e?.message ?? "failed to load Cardon program");
     }
   }, [wallet, connection]);
 

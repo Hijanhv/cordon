@@ -1,15 +1,15 @@
 {
-  "name": "cordon-jupiter-swap-agent",
+  "name": "cardon-jupiter-swap-agent",
   "version": "0.1.0",
   "private": true,
-  "description": "Toy agent demonstrating Cordon firewall enforcement via CordonWallet",
+  "description": "Toy agent demonstrating Cardon firewall enforcement via CardonWallet",
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@cordon/agent-kit": "file:../../packages/cordon-agent-kit",
-    "@cordon/sdk": "file:../../packages/cordon-ts",
+    "@cardon/agent-kit": "file:../../packages/cardon-agent-kit",
+    "@cardon/sdk": "file:../../packages/cardon-ts",
     "@coral-xyz/anchor": "^0.32.1",
     "@solana/web3.js": "^1.95.0",
     "bn.js": "^5.2.1"
