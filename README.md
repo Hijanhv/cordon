@@ -11,24 +11,30 @@ This is my Turbin3 Builders cohort capstone. The full project definition, market
 | Layer | Status |
 |---|---|
 | Anchor program (`programs/cordon`) | Compiles and tests pass locally |
-| Rust SDK (`sdk/cordon-rs`) | Types, PDA helpers, and the policy-preview function are in. Full async client and Helius simulation hook are not yet wired. |
-| Next.js HITL dashboard (`dashboard/`) | Working pending-approval queue against the on-chain program. No SendAI plugin integration yet. |
+| Rust SDK (`sdk/cordon-rs`) | Types, PDA helpers, and the policy-preview function are in. The async on-chain client (`--features client`) with a Helius/RPC simulation hook and a `guard()` firewall path is wired and unit-tested. |
+| TypeScript SDK (`packages/cordon-ts`, `@cordon/sdk`) | PDA helpers, client-side policy preview, `txHash`, intent extraction, and a `CordonClient` with a `guard()` firewall path. Typechecks. |
+| SendAI adapter (`packages/cordon-agent-kit`, `@cordon/agent-kit`) | `CordonWallet` (enforces policy on every sign/send) + `createCordonPlugin` (LLM-facing actions). Typechecks. Demo in `examples/jupiter-swap-agent`. |
+| Squads multisig HITL (`packages/cordon-ts` `squads.ts`) | Helpers to govern a policy with a Squads v4 multisig — the policy authority is the vault PDA, approvals route through a Squads proposal that CPIs `approve_tx`. No program change needed. See [`docs/SQUADS.md`](docs/SQUADS.md). |
+| Audit mirror + webhook (`services/audit-mirror`) | Event indexer (decodes `emit!` logs into an append-only store) plus a Helius webhook listener that confirms the broadcast leg. |
+| Next.js HITL dashboard (`dashboard/`) | Working pending-approval queue against the on-chain program. |
 | Capstone proposal (`docs/`) | Final. The PDF for submission is generated from `docs/CAPSTONE_PROPOSAL.md`. |
-
-What's deliberately not in here yet: the SendAI Agent Kit adapter package, the Squads multisig CPI integration, off-chain audit-log mirror, and a Helius webhook listener for confirming the broadcast leg. Those are the back half of the 6-week build plan.
 
 ## Layout
 
 ```
 cordon/
-├── docs/                # capstone proposal + sources
-├── research/            # raw scrapes used as primary sources
-├── programs/cordon/     # Anchor program (Rust)
-├── sdk/cordon-rs/       # Rust SDK + policy preview helpers
-├── dashboard/           # Next.js HITL approval queue
-├── tests/cordon.ts      # Anchor end-to-end test
+├── docs/                       # capstone proposal + sources
+├── research/                   # raw scrapes used as primary sources
+├── programs/cordon/            # Anchor program (Rust)
+├── sdk/cordon-rs/              # Rust SDK + async client (--features client)
+├── packages/cordon-ts/         # TypeScript SDK (@cordon/sdk)
+├── packages/cordon-agent-kit/  # SendAI Agent Kit adapter (@cordon/agent-kit)
+├── examples/jupiter-swap-agent/# Toy agent demoing firewall enforcement
+├── services/audit-mirror/      # Event indexer + Helius broadcast webhook
+├── dashboard/                  # Next.js HITL approval queue
+├── tests/cordon.ts             # Anchor end-to-end test
 ├── Anchor.toml
-└── Cargo.toml           # workspace
+└── Cargo.toml                  # workspace
 ```
 
 ## Quick start

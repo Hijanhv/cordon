@@ -11,6 +11,12 @@ dashboard/.env.local
 dashboard/.env*.local
 dashboard/*.tsbuildinfo
 
+# Compiled TS package output
+packages/**/dist/
+examples/**/dist/
+services/**/dist/
+**/*.tsbuildinfo
+
 # Program keypair stays out of git — anyone with it can redeploy at that program ID
 target/deploy/cordon-keypair.json
 
