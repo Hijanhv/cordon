@@ -6,6 +6,8 @@ Cardon sits between an autonomous agent and the network. Every transaction the a
 
 This is my Turbin3 Builders cohort capstone. The full project definition, market analysis, and process appendix is in [`docs/CAPSTONE_PROPOSAL.md`](docs/CAPSTONE_PROPOSAL.md).
 
+Live demo: **https://cardon-protocol.vercel.app** (landing page and the HITL approval queue at `/dashboard`).
+
 ## Status
 
 | Layer | Status |
@@ -16,7 +18,7 @@ This is my Turbin3 Builders cohort capstone. The full project definition, market
 | SendAI adapter (`packages/cardon-agent-kit`, `@cardon/agent-kit`) | `CardonWallet` (enforces policy on every sign/send) + `createCardonPlugin` (LLM-facing actions). Typechecks. Demo in `examples/jupiter-swap-agent`. |
 | Squads multisig HITL (`packages/cardon-ts` `squads.ts`) | Helpers to govern a policy with a Squads v4 multisig — the policy authority is the vault PDA, approvals route through a Squads proposal that CPIs `approve_tx`. No program change needed. See [`docs/SQUADS.md`](docs/SQUADS.md). |
 | Audit mirror + webhook (`services/audit-mirror`) | Event indexer (decodes `emit!` logs into an append-only store) plus a Helius webhook listener that confirms the broadcast leg. |
-| Next.js HITL dashboard (`dashboard/`) | Working pending-approval queue against the on-chain program. |
+| Next.js HITL dashboard (`dashboard/`) | Landing page + pending-approval queue against the on-chain program. Deployed at [cardon-protocol.vercel.app](https://cardon-protocol.vercel.app). |
 | Capstone proposal (`docs/`) | Final. The PDF for submission is generated from `docs/CAPSTONE_PROPOSAL.md`. |
 
 ## Layout
