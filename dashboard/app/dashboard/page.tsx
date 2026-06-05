@@ -70,7 +70,7 @@ export default function Page() {
     <main className="max-w-3xl mx-auto p-8">
       <header className="flex justify-between items-center mb-8">
         <Link href="/" className="text-2xl font-semibold hover:text-neutral-300">
-          Cordon
+          Cardon Protocol
         </Link>
         <WalletMultiButton />
       </header>

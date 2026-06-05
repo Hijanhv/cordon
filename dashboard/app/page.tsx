@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <main className="max-w-3xl mx-auto px-6 py-16">
       <header className="flex justify-between items-center mb-20">
-        <span className="text-lg font-semibold">Cordon</span>
+        <span className="text-lg font-semibold">Cardon Protocol</span>
         <nav className="flex gap-5 text-sm text-neutral-400">
           <Link href="/dashboard" className="hover:text-neutral-100">Dashboard</Link>
           <a href={GITHUB} className="hover:text-neutral-100">GitHub</a>

@@ -4,8 +4,8 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Cordon",
-  description: "HITL approval queue for Solana AI agents",
+  title: "Cardon Protocol",
+  description: "On-chain transaction firewall for Solana AI agents",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
