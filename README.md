@@ -1,5 +1,7 @@
 # Cardon
 
+[![Live demo](https://img.shields.io/badge/demo-cardon--protocol.vercel.app-black)](https://cardon-protocol.vercel.app)
+
 An on-chain transaction firewall for Solana AI agents.
 
 Cardon sits between an autonomous agent and the network. Every transaction the agent wants to broadcast gets simulated, checked against a policy stored in an Anchor program, and either signed, queued for a human approver, or rejected. Because the policy and approval rules live on-chain, no single operator can quietly raise a spend cap or remove a kill switch.
