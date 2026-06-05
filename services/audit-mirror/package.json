@@ -1,0 +1,22 @@
+{
+  "name": "cordon-audit-mirror",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Off-chain mirror of Cordon's on-chain audit events + Helius broadcast-confirmation webhook",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@cordon/sdk": "file:../../packages/cordon-ts",
+    "@coral-xyz/anchor": "^0.32.1",
+    "@solana/web3.js": "^1.95.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.0"
+  }
+}
