@@ -1,142 +1,116 @@
-"use client";
+import Link from "next/link";
 
-import { useCallback, useEffect, useState } from "react";
-import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { PublicKey } from "@solana/web3.js";
+const GITHUB = "https://github.com/Hijanhv/cordon";
 
-import { PendingTxRow } from "@/components/pending-tx-row";
-import {
-  CordonProgram,
-  fetchPendingForAgent,
-  getProvider,
-  loadProgram,
-  PendingTxAccount,
-} from "@/lib/cordon-program";
+const flow = [
+  { step: "Simulate", body: "The agent's transaction is run through Helius simulation before anything is signed." },
+  { step: "Check policy", body: "It's checked against an on-chain policy: per-tx cap, program allowlist, daily volume, kill switch." },
+  { step: "Decide", body: "Under the threshold it auto-approves; over it, it's queued for a human; if a cap is hit, it's rejected." },
+];
 
-export default function Page() {
-  const { connection } = useConnection();
-  const wallet = useAnchorWallet();
+const accounts = [
+  { name: "Agent", body: "Registers an agent's signing key, ties it to a policy, tracks an enabled flag and a pending-nonce counter." },
+  { name: "Policy", body: "Per-agent rules: max lamports per tx, the HITL threshold, daily volume ceiling, allowed-program list." },
+  { name: "PendingTx", body: "Created when a submission is over the threshold; closes and refunds rent on approve or reject." },
+];
 
-  const [agentInput, setAgentInput] = useState("");
-  const [agent, setAgent] = useState<PublicKey | null>(null);
-  const [program, setProgram] = useState<CordonProgram | null>(null);
-  const [pending, setPending] = useState<PendingTxAccount[]>([]);
-  const [err, setErr] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!wallet) {
-      setProgram(null);
-      return;
-    }
-    try {
-      const provider = getProvider(connection, wallet);
-      setProgram(loadProgram(provider));
-    } catch (e: any) {
-      setErr(e?.message ?? "failed to load Cordon program");
-    }
-  }, [wallet, connection]);
-
-  const refresh = useCallback(async () => {
-    if (!program || !agent) return;
-    setLoading(true);
-    setErr(null);
-    try {
-      const list = await fetchPendingForAgent(program, agent);
-      setPending(list);
-    } catch (e: any) {
-      setErr(e?.message ?? "load failed");
-    } finally {
-      setLoading(false);
-    }
-  }, [program, agent]);
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
-
-  function handleLoad() {
-    try {
-      const pk = new PublicKey(agentInput.trim());
-      setAgent(pk);
-    } catch {
-      setErr("invalid pubkey");
-    }
-  }
-
+export default function Home() {
   return (
-    <main className="max-w-3xl mx-auto p-8">
-      <header className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-semibold">Cordon</h1>
-        <WalletMultiButton />
+    <main className="max-w-3xl mx-auto px-6 py-16">
+      <header className="flex justify-between items-center mb-20">
+        <span className="text-lg font-semibold">Cordon</span>
+        <nav className="flex gap-5 text-sm text-neutral-400">
+          <Link href="/dashboard" className="hover:text-neutral-100">Dashboard</Link>
+          <a href={GITHUB} className="hover:text-neutral-100">GitHub</a>
+        </nav>
       </header>
 
-      <section className="mb-8">
-        <label className="block text-sm text-neutral-400 mb-2">Agent PDA</label>
-        <div className="flex gap-2">
-          <input
-            value={agentInput}
-            onChange={(e) => setAgentInput(e.target.value)}
-            placeholder="Paste the agent account pubkey"
-            className="flex-1 bg-neutral-900 border border-neutral-800 rounded px-3 py-2 font-mono text-sm"
-          />
-          <button
-            onClick={handleLoad}
-            disabled={!agentInput}
-            className="px-4 py-2 bg-neutral-200 text-neutral-900 rounded disabled:opacity-50"
+      <section className="mb-24">
+        <h1 className="text-4xl sm:text-5xl font-semibold leading-tight tracking-tight">
+          An on-chain transaction firewall for Solana AI agents.
+        </h1>
+        <p className="mt-6 text-lg text-neutral-400 leading-relaxed">
+          Cordon sits between an autonomous agent and the network. Every transaction the
+          agent wants to broadcast is simulated, checked against a policy stored in an Anchor
+          program, and either signed, queued for a human approver, or rejected. Because the
+          policy and approval rules live on-chain, no single operator can quietly raise a
+          spend cap or remove a kill switch.
+        </p>
+        <div className="mt-8 flex gap-3">
+          <Link
+            href="/dashboard"
+            className="px-4 py-2 bg-neutral-100 text-neutral-900 rounded text-sm font-medium hover:bg-white"
           >
-            Load
-          </button>
+            Open the approval queue
+          </Link>
+          <a
+            href={GITHUB}
+            className="px-4 py-2 border border-neutral-800 rounded text-sm hover:border-neutral-600"
+          >
+            Read the code
+          </a>
         </div>
       </section>
 
-      {err && (
-        <div className="bg-red-950 border border-red-900 text-red-200 text-sm px-3 py-2 rounded mb-4">
-          {err}
-        </div>
-      )}
-
-      <section>
-        <div className="flex justify-between items-center mb-3">
-          <h2 className="text-sm uppercase tracking-wide text-neutral-500">
-            Pending approvals
-          </h2>
-          <button
-            onClick={refresh}
-            disabled={!program || !agent || loading}
-            className="text-xs text-neutral-400 hover:text-neutral-200 disabled:opacity-30"
-          >
-            {loading ? "loading…" : "refresh"}
-          </button>
-        </div>
-
-        {!wallet && (
-          <p className="text-neutral-500 text-sm">Connect a wallet to continue.</p>
-        )}
-
-        {wallet && !agent && (
-          <p className="text-neutral-500 text-sm">Load an agent to see its queue.</p>
-        )}
-
-        {wallet && agent && pending.length === 0 && !loading && (
-          <p className="text-neutral-500 text-sm">No pending transactions.</p>
-        )}
-
-        <div className="flex flex-col gap-3">
-          {program &&
-            agent &&
-            pending.map((p) => (
-              <PendingTxRow
-                key={p.publicKey.toBase58()}
-                pending={p}
-                agent={agent}
-                program={program}
-                onChanged={refresh}
-              />
-            ))}
-        </div>
+      <section className="mb-24">
+        <h2 className="text-xs uppercase tracking-widest text-neutral-500 mb-6">The problem</h2>
+        <p className="text-neutral-300 leading-relaxed">
+          Agents can now sign and broadcast transactions on their own. One bad prompt, a
+          jailbreak, or a model regression can drain a hot wallet, and there is no firewall
+          between an agent&apos;s intent and the network. The closest existing product runs
+          its policy as centralized middleware that anyone with code access can change.
+          Cordon puts the policy in an Anchor program whose authority can be a multisig or a
+          DAO, so rotating the rules is an on-chain transaction, not a config push.
+        </p>
       </section>
+
+      <section className="mb-24">
+        <h2 className="text-xs uppercase tracking-widest text-neutral-500 mb-6">How it works</h2>
+        <ol className="space-y-5">
+          {flow.map((f, i) => (
+            <li key={f.step} className="flex gap-4">
+              <span className="text-neutral-600 font-mono text-sm pt-0.5">{i + 1}</span>
+              <div>
+                <div className="font-medium">{f.step}</div>
+                <p className="text-neutral-400 text-sm mt-1 leading-relaxed">{f.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="mb-24">
+        <h2 className="text-xs uppercase tracking-widest text-neutral-500 mb-6">Program shape</h2>
+        <div className="grid sm:grid-cols-3 gap-4">
+          {accounts.map((a) => (
+            <div key={a.name} className="border border-neutral-800 rounded p-4">
+              <div className="font-mono text-sm mb-2">{a.name}</div>
+              <p className="text-neutral-400 text-sm leading-relaxed">{a.body}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-neutral-500 text-sm mt-4">
+          The audit trail is event-based: every approval, rejection, and policy change shows
+          up in transaction logs and is indexed off-chain.
+        </p>
+      </section>
+
+      <section className="mb-24">
+        <h2 className="text-xs uppercase tracking-widest text-neutral-500 mb-6">Integrate</h2>
+        <p className="text-neutral-400 text-sm mb-4 leading-relaxed">
+          Drop the firewall into an agent built on the Solana Agent Kit by wrapping its wallet.
+        </p>
+        <pre className="bg-neutral-900 border border-neutral-800 rounded p-4 text-sm overflow-x-auto">
+          <code className="font-mono text-neutral-300">{`const wallet = new CordonWallet({ inner, client, agent, agentSigner });
+const agentKit = new SolanaAgentKit(wallet, RPC_URL, {});
+// a high-value tx now queues for human review instead of broadcasting`}</code>
+        </pre>
+      </section>
+
+      <footer className="pt-8 border-t border-neutral-900 text-sm text-neutral-500 flex justify-between">
+        <span>Turbin3 Builders capstone</span>
+        <a href={GITHUB} className="hover:text-neutral-300">github.com/Hijanhv/cordon</a>
+      </footer>
     </main>
   );
 }
