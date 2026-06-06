@@ -1,7 +1,7 @@
 # Cardon
 
 [![Live demo](https://img.shields.io/badge/demo-cardon--protocol.vercel.app-black)](https://cardon-protocol.vercel.app)
-architecture design - (https://github.com/Hijanhv/cardon--Architecture-Design-)
+
 
 An on-chain transaction firewall for Solana AI agents.
 
