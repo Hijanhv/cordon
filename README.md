@@ -9,6 +9,8 @@ Cardon sits between an autonomous agent and the network. Every transaction the a
 
 This is my Turbin3 Builders cohort capstone. The full project definition, market analysis, and process appendix is in [`docs/CAPSTONE_PROPOSAL.md`](docs/CAPSTONE_PROPOSAL.md).
 
+Architecture design lives in a separate repo: [Hijanhv/cardon--Architecture-Design-](https://github.com/Hijanhv/cardon--Architecture-Design-).
+
 Live demo: **https://cardon-protocol.vercel.app** (landing page and the HITL approval queue at `/dashboard`).
 
 ## Status
