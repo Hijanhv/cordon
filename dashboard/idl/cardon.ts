@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/cardon.json`.
  */
 export type Cardon = {
-  "address": "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik",
+  "address": "5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc",
   "metadata": {
     "name": "cardon",
     "version": "0.1.0",

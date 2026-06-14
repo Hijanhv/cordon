@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="420" viewBox="0 0 780 420">
+  <defs>
+    <style>
+      .bg { fill: #1e1e2e; }
+      .titlebar { fill: #313244; }
+      .dot-red { fill: #f38ba8; }
+      .dot-yellow { fill: #f9e2af; }
+      .dot-green { fill: #a6e3a1; }
+      .code { font-family: 'SF Mono', 'Fira Mono', 'Cascadia Code', monospace; font-size: 13px; }
+      .pass { fill: #a6e3a1; }
+      .dim { fill: #585b70; }
+      .white { fill: #cdd6f4; }
+      .blue { fill: #89b4fa; }
+      .yellow { fill: #f9e2af; }
+      .title { fill: #9399b2; font-family: -apple-system, sans-serif; font-size: 12px; }
+    </style>
+  </defs>
+
+  <!-- Window background -->
+  <rect width="780" height="420" rx="10" class="bg"/>
+
+  <!-- Title bar -->
+  <rect width="780" height="36" rx="10" class="titlebar"/>
+  <rect y="18" width="780" height="18" class="titlebar"/>
+
+  <!-- Window dots -->
+  <circle cx="20" cy="18" r="6" class="dot-red"/>
+  <circle cx="40" cy="18" r="6" class="dot-yellow"/>
+  <circle cx="60" cy="18" r="6" class="dot-green"/>
+
+  <!-- Title -->
+  <text x="390" y="23" text-anchor="middle" class="title">zsh — cordon — anchor test (devnet)</text>
+
+  <!-- Terminal content -->
+  <text x="20" y="64" class="code dim">$</text>
+  <text x="34" y="64" class="code white">ANCHOR_PROVIDER_URL=https://api.devnet.solana.com yarn ts-mocha -p ./tsconfig.json -t 1000000 'tests/**/*.ts'</text>
+
+  <text x="20" y="90" class="code white">  cardon</text>
+
+  <text x="20" y="114" class="code pass">    ✔</text>
+  <text x="46" y="114" class="code white">registers an agent and seeds an initial policy</text>
+  <text x="566" y="114" class="code dim">(870ms)</text>
+
+  <text x="20" y="136" class="code pass">    ✔</text>
+  <text x="46" y="136" class="code white">auto-approves a small tx to an allowed program</text>
+  <text x="556" y="136" class="code dim">(623ms)</text>
+
+  <text x="20" y="158" class="code pass">    ✔</text>
+  <text x="46" y="158" class="code white">rejects an auto submission over the HITL threshold</text>
+  <text x="576" y="158" class="code dim">(140ms)</text>
+
+  <text x="20" y="180" class="code pass">    ✔</text>
+  <text x="46" y="180" class="code white">rejects an auto submission to a non-allowlisted program</text>
+  <text x="600" y="180" class="code dim">(131ms)</text>
+
+  <text x="20" y="202" class="code pass">    ✔</text>
+  <text x="46" y="202" class="code white">queues a high-value tx for human review and approves it</text>
+  <text x="606" y="202" class="code dim">(1343ms)</text>
+
+  <text x="20" y="224" class="code pass">    ✔</text>
+  <text x="46" y="224" class="code white">rejects a pending tx</text>
+  <text x="246" y="224" class="code dim">(1165ms)</text>
+
+  <text x="20" y="246" class="code pass">    ✔</text>
+  <text x="46" y="246" class="code white">blocks submissions when the agent is disabled</text>
+  <text x="526" y="246" class="code dim">(9676ms)</text>
+
+  <text x="20" y="268" class="code pass">    ✔</text>
+  <text x="46" y="268" class="code white">rejects registration when hitl_threshold &gt; max_lamports_per_tx</text>
+  <text x="656" y="268" class="code dim">(168ms)</text>
+
+  <text x="20" y="290" class="code pass">    ✔</text>
+  <text x="46" y="290" class="code white">rejects a submission that would breach the daily volume ceiling</text>
+  <text x="660" y="290" class="code dim">(1396ms)</text>
+
+  <!-- Summary line -->
+  <line x1="20" y1="316" x2="760" y2="316" stroke="#313244" stroke-width="1"/>
+
+  <text x="20" y="342" class="code pass">  9 passing</text>
+  <text x="130" y="342" class="code dim">(16s)</text>
+
+  <!-- Program ID footer -->
+  <line x1="20" y1="366" x2="760" y2="366" stroke="#313244" stroke-width="1"/>
+  <text x="20" y="392" class="code dim">Program ID (devnet):</text>
+  <text x="174" y="392" class="code blue">5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc</text>
+</svg>

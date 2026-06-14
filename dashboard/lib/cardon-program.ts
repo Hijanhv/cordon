@@ -6,7 +6,7 @@ import type { Cardon } from "@/idl/cardon";
 import cardonIdl from "@/idl/cardon.json";
 
 export const CARDON_PROGRAM_ID = new PublicKey(
-  "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik"
+  "5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc"
 );
 
 export type CardonProgram = Program<Cardon>;

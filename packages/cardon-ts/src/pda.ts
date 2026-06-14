@@ -3,7 +3,7 @@ import BN from "bn.js";
 
 /** The deployed Cardon program ID (matches `declare_id!` and Anchor.toml). */
 export const CARDON_PROGRAM_ID = new PublicKey(
-  "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik"
+  "5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc"
 );
 
 const AGENT_SEED = Buffer.from("agent");

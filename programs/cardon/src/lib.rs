@@ -30,7 +30,7 @@ mod re_exports {
 }
 pub use re_exports::*;
 
-declare_id!("syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik");
+declare_id!("5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc");
 
 #[program]
 pub mod cardon {

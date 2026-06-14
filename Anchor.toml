@@ -6,16 +6,16 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-cardon = "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik"
+cardon = "5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc"
 
 [programs.devnet]
-cardon = "syCBdUmwQVcxUekupYBvPTM28HgCYN4pqehYaAktuik"
+cardon = "5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "Devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

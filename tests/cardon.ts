@@ -46,11 +46,14 @@ describe("cardon", () => {
   const [policyPda] = findPolicyPda(program.programId, agentPda);
 
   before(async () => {
-    const sig = await provider.connection.requestAirdrop(
-      authority.publicKey,
-      LAMPORTS_PER_SOL
+    const tx = new anchor.web3.Transaction().add(
+      SystemProgram.transfer({
+        fromPubkey: payer.publicKey,
+        toPubkey: authority.publicKey,
+        lamports: LAMPORTS_PER_SOL,
+      })
     );
-    await provider.connection.confirmTransaction(sig);
+    await provider.sendAndConfirm(tx, [payer]);
   });
 
   it("registers an agent and seeds an initial policy", async () => {

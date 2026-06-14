@@ -1,7 +1,8 @@
-# Cardon
+# Cordon
 
 [![Live demo](https://img.shields.io/badge/demo-cardon--protocol.vercel.app-black)](https://cardon-protocol.vercel.app)
 
+**Devnet Program ID:** `5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc`
 
 An on-chain transaction firewall for Solana AI agents.
 
@@ -17,7 +18,7 @@ Live demo: **https://cardon-protocol.vercel.app** (landing page and the HITL app
 
 | Layer | Status |
 |---|---|
-| Anchor program (`programs/cardon`) | Compiles and tests pass locally |
+| Anchor program (`programs/cardon`) | Deployed to devnet — `5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc` |
 | Rust SDK (`sdk/cardon-rs`) | Types, PDA helpers, and the policy-preview function are in. The async on-chain client (`--features client`) with a Helius/RPC simulation hook and a `guard()` firewall path is wired and unit-tested. |
 | TypeScript SDK (`packages/cardon-ts`, `@cardon/sdk`) | PDA helpers, client-side policy preview, `txHash`, intent extraction, and a `CardonClient` with a `guard()` firewall path. Typechecks. |
 | SendAI adapter (`packages/cardon-agent-kit`, `@cardon/agent-kit`) | `CardonWallet` (enforces policy on every sign/send) + `createCardonPlugin` (LLM-facing actions). Typechecks. Demo in `examples/jupiter-swap-agent`. |
@@ -46,11 +47,11 @@ cardon/
 
 ## Quick start
 
-Build the program and run the test suite against a local validator:
+Build the program and run the test suite against devnet:
 
 ```bash
 anchor build
-anchor test
+anchor test --provider.cluster devnet --skip-local-validator
 ```
 
 Run the dashboard against devnet:
@@ -62,6 +63,20 @@ NEXT_PUBLIC_RPC=https://api.devnet.solana.com npm run dev
 ```
 
 The dashboard expects the Cardon program to be deployed at the program ID in `Anchor.toml` and the IDL to be uploaded on-chain (`anchor idl init`).
+
+## Devnet deployment
+
+Program ID: `5Zy73PLH2hpNvsCvyeqpn2tKjHBXNihjX7UbeAZ41tQc`
+
+Run the full test suite against devnet:
+
+```bash
+anchor test --provider.cluster devnet
+```
+
+### Tests passing on devnet
+
+![All 9 tests passing on devnet](docs/tests-devnet.svg)
 
 ## Program shape
 
