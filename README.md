@@ -8,7 +8,7 @@ An on-chain transaction firewall for Solana AI agents.
 
 Cardon sits between an autonomous agent and the network. Every transaction the agent wants to broadcast gets simulated, checked against a policy stored in an Anchor program, and either signed, queued for a human approver, or rejected. Because the policy and approval rules live on-chain, no single operator can quietly raise a spend cap or remove a kill switch.
 
-This is my Turbin3 Builders cohort capstone. The full project definition, market analysis, and process appendix is in [`docs/CAPSTONE_PROPOSAL.md`](docs/CAPSTONE_PROPOSAL.md).
+This is my Turbin3 Builders cohort capstone. The full project definition, market analysis, and process appendix is in [`docs/CAPSTONE_PROPOSAL.md`](docs/CAPSTONE_PROPOSAL.md). The pitch deck is at [`docs/cardon-pitch-deck.pdf`](docs/cardon-pitch-deck.pdf).
 
 Architecture design lives in a separate repo: [Hijanhv/cardon--Architecture-Design-](https://github.com/Hijanhv/cardon--Architecture-Design-).
 
