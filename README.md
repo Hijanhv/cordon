@@ -12,6 +12,8 @@ This is my Turbin3 Builders cohort capstone. The full project definition, market
 
 > [!NOTE]
 > **Pitch Deck** — [`docs/cardon-pitch-deck.pdf`](docs/cardon-pitch-deck.pdf)
+>
+> **Pitch Video** — [youtu.be/B8M58DLUgd8](https://youtu.be/B8M58DLUgd8)
 
 Architecture design lives in a separate repo: [Hijanhv/cardon--Architecture-Design-](https://github.com/Hijanhv/cardon--Architecture-Design-).
 
